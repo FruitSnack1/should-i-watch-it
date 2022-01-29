@@ -21,15 +21,15 @@ class _SearchState extends State<Search> {
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.search,
-                color: Color.fromARGB(255, 174, 174, 174),
+                color: Theme.of(context).primaryColor,
               ),
               onPressed: () {},
             ),
             hintText: 'Search for a movie ...',
             hintStyle:
-                GoogleFonts.ubuntu(color: Color.fromARGB(255, 174, 174, 174)),
+                GoogleFonts.ubuntu(color: Theme.of(context).primaryColor),
             filled: true,
-            fillColor: Color.fromARGB(255, 59, 59, 59)),
+            fillColor: Theme.of(context).accentColor),
       )),
     );
   }
