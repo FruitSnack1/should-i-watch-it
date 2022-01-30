@@ -14,6 +14,20 @@ class _SettingsState extends State<Settings> {
   double criticWeight = 5;
   double userWeight = 5;
 
+  @override
+  initState() {
+    super.initState();
+    loadWeights();
+  }
+
+  loadWeights() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      criticWeight = prefs.getDouble('criticWeight') as double;
+      userWeight = prefs.getDouble('userWeight') as double;
+    });
+  }
+
   closeSettings() {
     Navigator.pop(context);
   }

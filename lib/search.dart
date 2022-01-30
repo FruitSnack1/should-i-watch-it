@@ -23,13 +23,18 @@ class _SearchState extends State<Search> {
         onChanged: onSearch,
         style: GoogleFonts.ubuntu(color: Colors.white),
         decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+            focusedBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
             suffixIcon: IconButton(
               icon: Icon(
                 Icons.search,
                 color: Theme.of(context).primaryColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
             ),
             hintText: 'Search for a movie ...',
             hintStyle:
