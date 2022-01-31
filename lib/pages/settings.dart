@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:should_i_watch_it/widgets/about.dart';
+import 'package:should_i_watch_it/widgets/settingsHint.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -54,6 +56,14 @@ class _SettingsState extends State<Settings> {
     prefs.setDouble('criticWeight', criticWeight);
   }
 
+  showAbout() {
+    showDialog(context: context, builder: (context) => About());
+  }
+
+  showSettingsHint() {
+    showDialog(context: context, builder: (context) => SettingsHint());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +93,30 @@ class _SettingsState extends State<Settings> {
                   ),
                   WeightSlider(
                       'User reviews weight', userWeight, onUserWeightChange),
+                  TextButton(
+                      onPressed: showSettingsHint,
+                      child: Text(
+                        'What is this ?',
+                        style: GoogleFonts.ubuntu(
+                            color: Colors.white, fontSize: 12),
+                      )),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  TextButton(
+                      onPressed: showAbout,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).accentColor),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10)),
+                      ),
+                      child: Text(
+                        'About',
+                        style: GoogleFonts.ubuntu(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18),
+                      ))
                 ],
               ),
             )

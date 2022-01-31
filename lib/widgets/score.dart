@@ -57,21 +57,39 @@ class _ScoreState extends State<Score> {
   fetchScore() async {
     ReviewData data = await getReview(widget.movieName);
     int score = await data.getScore();
-    setState(() {
-      reviewData = data;
-      text = getText(score);
-      color = getColor(score);
-      loading = false;
-    });
+    Future.delayed(
+        const Duration(milliseconds: 3000),
+        () => {
+              setState(() {
+                reviewData = data;
+                text = getText(score);
+                color = getColor(score);
+                loading = false;
+              })
+            });
   }
 
   @override
   Widget build(BuildContext context) {
     return loading
-        ? Container(
-            width: 30,
-            height: 30,
-            child: CircularProgressIndicator(),
+        ? Column(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Calculating score ...',
+                style:
+                    GoogleFonts.ubuntu(color: Theme.of(context).primaryColor),
+              )
+            ],
           )
         : Column(
             children: [

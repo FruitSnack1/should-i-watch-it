@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Search extends StatefulWidget {
   final Function(String) cb;
-  Search(this.cb);
+  final TextEditingController controller;
+  Search(this.controller, this.cb);
 
   @override
   _SearchState createState() => _SearchState();
@@ -20,6 +21,7 @@ class _SearchState extends State<Search> {
     return Container(
       child: Center(
           child: TextField(
+        controller: widget.controller,
         onChanged: onSearch,
         style: GoogleFonts.ubuntu(color: Colors.white),
         decoration: InputDecoration(

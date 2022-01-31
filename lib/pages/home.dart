@@ -21,15 +21,16 @@ class _HomeState extends State<Home> {
   List<MovieData> _searchResults = [];
   bool _loading = false;
   String search = '';
+  final _controler = TextEditingController();
 
   openSettings() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Settings()));
   }
 
-  onSearch(String searchText) async {
-    if (search == searchText) return;
-    if (searchText == '') {
+  onSearch(String query) async {
+    if (search == query) return;
+    if (query == '') {
       setState(() {
         _searchResults = [];
         _loading = false;
@@ -37,10 +38,10 @@ class _HomeState extends State<Home> {
       });
     }
     setState(() {
-      search = searchText;
+      search = query;
       _loading = true;
     });
-    List<MovieData> result = await getMovies(searchText);
+    List<MovieData> result = await getMovies(query);
     setState(() {
       _searchResults = result;
       _loading = false;
@@ -50,6 +51,12 @@ class _HomeState extends State<Home> {
   openReview(MovieData movieData) {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => Review(movieData)));
+    _controler.clear();
+    FocusScope.of(context).requestFocus(FocusNode());
+    setState(() {
+      _searchResults = [];
+      search = '';
+    });
   }
 
   Widget resultBuilder(BuildContext context, int index) {
@@ -76,7 +83,7 @@ class _HomeState extends State<Home> {
                     SizedBox(height: 80),
                     TitleText(),
                     SizedBox(height: 20),
-                    Search(onSearch),
+                    Search(_controler, onSearch),
                     SizedBox(height: 20),
                     Expanded(
                         child: _loading
