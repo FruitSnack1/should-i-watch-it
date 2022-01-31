@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:should_i_watch_it/api/api.dart';
 import 'package:should_i_watch_it/models/movieData.dart';
-import 'package:should_i_watch_it/models/reviewData.dart';
 import 'package:should_i_watch_it/pages/review.dart';
 import 'package:should_i_watch_it/pages/settings.dart';
-import 'package:http/http.dart' as http;
 import 'package:should_i_watch_it/widgets/search.dart';
 import 'package:should_i_watch_it/widgets/movie.dart';
 import 'package:should_i_watch_it/widgets/movieSkeleton.dart';
