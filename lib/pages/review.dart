@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:should_i_watch_it/score.dart';
+import 'package:should_i_watch_it/api/api.dart';
+import 'package:should_i_watch_it/models/reviewData.dart';
+import 'package:should_i_watch_it/widgets/score.dart';
+import 'package:should_i_watch_it/models/movieData.dart';
 
 class Review extends StatefulWidget {
-  final String title;
-  final int year;
-  final String imageUrl;
-  final String movieName;
-  Review(this.title, this.year, this.imageUrl, this.movieName);
+  final MovieData movieData;
+  Review(this.movieData);
 
   @override
   _ReviewState createState() => _ReviewState();
@@ -21,19 +21,19 @@ class Review extends StatefulWidget {
 class _ReviewState extends State<Review> {
   String largeImage = '';
   int review = 0;
-  closeReview() {
-    Navigator.pop(context);
-  }
-
-  parseImageUrl() {
-    largeImage =
-        widget.imageUrl.substring(0, widget.imageUrl.length - 6) + '250h.jpg';
-  }
 
   @override
   initState() {
     super.initState();
-    parseImageUrl();
+    fetchReview();
+  }
+
+  fetchReview() async {
+    ReviewData data = await getReview(widget.movieData.movieName);
+  }
+
+  closeReview() {
+    Navigator.pop(context);
   }
 
   @override
@@ -69,7 +69,7 @@ class _ReviewState extends State<Review> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                                image: NetworkImage(widget.imageUrl),
+                                image: NetworkImage(widget.movieData.imageUrl),
                                 fit: BoxFit.cover)),
                       ),
                       SizedBox(
@@ -80,13 +80,13 @@ class _ReviewState extends State<Review> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${widget.title}',
+                              '${widget.movieData.title}',
                               style: GoogleFonts.ubuntu(
                                   color: Colors.white, fontSize: 28),
                               overflow: TextOverflow.visible,
                             ),
                             Text(
-                              '${widget.year}',
+                              '${widget.movieData.year}',
                               style: GoogleFonts.ubuntu(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 16),
@@ -102,7 +102,7 @@ class _ReviewState extends State<Review> {
                       SizedBox(
                         height: 100,
                       ),
-                      Score(widget.movieName),
+                      Score(widget.movieData.movieName),
                     ],
                   ))
                 ],

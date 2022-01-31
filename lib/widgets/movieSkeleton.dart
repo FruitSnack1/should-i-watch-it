@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class SearchResultSkeleton extends StatelessWidget {
-  const SearchResultSkeleton({Key? key}) : super(key: key);
+class MovieSkeleton extends StatelessWidget {
+  const MovieSkeleton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

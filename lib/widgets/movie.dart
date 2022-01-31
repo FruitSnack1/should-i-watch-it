@@ -1,32 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:should_i_watch_it/review.dart';
+import 'package:should_i_watch_it/models/movieData.dart';
 
-class SearchResult extends StatefulWidget {
-  final String title;
-  final int year;
-  final String imageUrl;
-  final String movieName;
-  SearchResult(this.title, this.year, this.imageUrl, this.movieName);
+class Movie extends StatefulWidget {
+  final MovieData movieData;
+  final Function(MovieData movieData) cb;
+  Movie(this.movieData, this.cb);
 
   @override
-  _SearchResultState createState() => _SearchResultState();
+  _MovieState createState() => _MovieState();
 }
 
-class _SearchResultState extends State<SearchResult> {
-  openReview() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Review(
-                widget.title, widget.year, widget.imageUrl, widget.movieName)));
-  }
+class _MovieState extends State<Movie> {
+  // openReview() {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) =>
+  //               Review(widget.movieData, ReviewData(3, 3.3, 3, 3, 's'))));
+  // }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: openReview,
+      onTap: () => widget.cb(widget.movieData),
       child: Container(
         margin: EdgeInsets.only(bottom: 20),
         child: Row(
@@ -37,7 +35,8 @@ class _SearchResultState extends State<SearchResult> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                      image: NetworkImage(widget.imageUrl), fit: BoxFit.cover)),
+                      image: NetworkImage(widget.movieData.imageUrl),
+                      fit: BoxFit.cover)),
             ),
             SizedBox(
               width: 20,
@@ -47,13 +46,13 @@ class _SearchResultState extends State<SearchResult> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${widget.title}',
+                    '${widget.movieData.title}',
                     style:
                         GoogleFonts.ubuntu(color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    '${widget.year}',
+                    '${widget.movieData.year}',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor, fontSize: 12),
                   ),

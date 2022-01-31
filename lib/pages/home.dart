@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:should_i_watch_it/search.dart';
-import 'package:should_i_watch_it/searchResult.dart';
-import 'package:should_i_watch_it/searchResultData.dart';
-import 'package:should_i_watch_it/searchResultSkeleton.dart';
-import 'package:should_i_watch_it/settings.dart';
-import 'package:should_i_watch_it/title.dart';
+import 'package:should_i_watch_it/api/api.dart';
+import 'package:should_i_watch_it/models/movieData.dart';
+import 'package:should_i_watch_it/models/reviewData.dart';
+import 'package:should_i_watch_it/pages/review.dart';
+import 'package:should_i_watch_it/pages/settings.dart';
 import 'package:http/http.dart' as http;
+import 'package:should_i_watch_it/widgets/search.dart';
+import 'package:should_i_watch_it/widgets/movie.dart';
+import 'package:should_i_watch_it/widgets/movieSkeleton.dart';
+import 'package:should_i_watch_it/widgets/title.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<SearchResultData> _searchResults = [];
+  List<MovieData> _searchResults = [];
   bool _loading = false;
   String search = '';
 
@@ -30,10 +33,6 @@ class _HomeState extends State<Home> {
 
   onSearch(String searchText) async {
     if (search == searchText) return;
-    setState(() {
-      search = searchText;
-      _loading = true;
-    });
     if (searchText == '') {
       setState(() {
         _searchResults = [];
@@ -41,21 +40,24 @@ class _HomeState extends State<Home> {
         return;
       });
     }
-    http.Response response = await http
-        .get(Uri.parse('http://168.119.116.61:8888/search/${searchText}'));
-    if (response.statusCode == 200) {
-      setState(() {
-        List data = json.decode(response.body);
-        _searchResults = data.map((e) => SearchResultData.fromJson(e)).toList();
-        _loading = false;
-      });
-      print(_searchResults.length);
-    }
+    setState(() {
+      search = searchText;
+      _loading = true;
+    });
+    List<MovieData> result = await getMovies(searchText);
+    setState(() {
+      _searchResults = result;
+      _loading = false;
+    });
+  }
+
+  openReview(MovieData movieData) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Review(movieData)));
   }
 
   Widget resultBuilder(BuildContext context, int index) {
-    return SearchResult(_searchResults[index].title, _searchResults[index].year,
-        _searchResults[index].imageUrl, _searchResults[index].movieName);
+    return Movie(_searchResults[index], openReview);
   }
 
   @override
@@ -82,7 +84,7 @@ class _HomeState extends State<Home> {
                     SizedBox(height: 20),
                     Expanded(
                         child: _loading
-                            ? SearchResultSkeleton()
+                            ? MovieSkeleton()
                             : _searchResults.length == 0 && search != ''
                                 ? Text(
                                     "Couldn't find a movie with that title",

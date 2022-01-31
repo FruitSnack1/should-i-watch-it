@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:should_i_watch_it/home.dart';
+import 'package:should_i_watch_it/pages/home.dart';
 
 void main() {
   runApp(MyApp());
