@@ -34,11 +34,15 @@ dependencies:
   shimmer: ^2.0.0
   url_launcher: ^6.0.9
   progress_indicators: ^1.0.0
+  flutter_launcher_icons: ^0.9.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  android: true
+  image_path: "assets/icon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

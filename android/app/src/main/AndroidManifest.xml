@@ -2,7 +2,7 @@
     package="com.example.should_i_watch_it">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="should_i_watch_it"
+        android:label="Should I watch it ?"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
