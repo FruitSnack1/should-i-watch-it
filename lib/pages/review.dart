@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:should_i_watch_it/api/api.dart';
 import 'package:should_i_watch_it/models/reviewData.dart';
+import 'package:should_i_watch_it/widgets/reviewHint.dart';
 import 'package:should_i_watch_it/widgets/reviewSkeleton.dart';
 import 'package:should_i_watch_it/widgets/score.dart';
 import 'package:should_i_watch_it/models/movieData.dart';
@@ -37,6 +38,10 @@ class _ReviewState extends State<Review> {
     Navigator.pop(context);
   }
 
+  openReviewHint() {
+    showDialog(context: context, builder: (context) => ReviewHint());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,14 +49,28 @@ class _ReviewState extends State<Review> {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              child: IconButton(
-                onPressed: closeReview,
-                icon: Icon(Icons.arrow_back),
-                color: Theme.of(context).primaryColor,
-                iconSize: 28,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: IconButton(
+                    onPressed: closeReview,
+                    icon: Icon(Icons.arrow_back),
+                    color: Theme.of(context).primaryColor,
+                    iconSize: 28,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: IconButton(
+                    onPressed: openReviewHint,
+                    icon: Icon(Icons.info),
+                    color: Theme.of(context).primaryColor,
+                    iconSize: 28,
+                  ),
+                ),
+              ],
             ),
             loading
                 ? ReviewSkeleton()
