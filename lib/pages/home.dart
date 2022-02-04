@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
       _loading = true;
     });
     List<MovieData> result = await getMovies(query);
+    if (query != search) return;
     setState(() {
       _searchResults = result;
       _loading = false;

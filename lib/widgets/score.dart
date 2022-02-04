@@ -17,6 +17,7 @@ class _ScoreState extends State<Score> {
   Color color = Color.fromARGB(0, 0, 0, 0);
   bool loading = true;
   late ReviewData reviewData;
+  late int movieScore;
 
   @override
   initState() {
@@ -61,6 +62,7 @@ class _ScoreState extends State<Score> {
         const Duration(milliseconds: 3000),
         () => {
               setState(() {
+                movieScore = score;
                 reviewData = data;
                 text = getText(score);
                 color = getColor(score);
@@ -106,7 +108,40 @@ class _ScoreState extends State<Score> {
                           fontSize: 12, color: Theme.of(context).primaryColor),
                     ),
               SizedBox(
-                height: 60,
+                height: 30,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: getColor(movieScore)),
+                    child: Center(
+                      child: reviewData.criticScore == -1
+                          ? Text('TBD',
+                              style: GoogleFonts.ubuntu(
+                                color: Theme.of(context).backgroundColor,
+                              ))
+                          : Text('$movieScore',
+                              style: GoogleFonts.ubuntu(
+                                color: Theme.of(context).backgroundColor,
+                              )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Overall score',
+                    style: GoogleFonts.ubuntu(color: Colors.white),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -152,12 +187,12 @@ class _ScoreState extends State<Score> {
                 children: [
                   Text(
                     'Critic score',
-                    style:
-                        GoogleFonts.ubuntu(color: Colors.white, fontSize: 12),
+                    style: GoogleFonts.ubuntu(
+                        color: Theme.of(context).primaryColor, fontSize: 12),
                   ),
                   Text('User score',
                       style: GoogleFonts.ubuntu(
-                          color: Colors.white, fontSize: 12)),
+                          color: Theme.of(context).primaryColor, fontSize: 12)),
                 ],
               )
             ],
