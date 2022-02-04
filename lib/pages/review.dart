@@ -103,7 +103,7 @@ class _ReviewState extends State<Review> {
                             child: Column(
                           children: [
                             SizedBox(
-                              height: 100,
+                              height: 70,
                             ),
                             Score(widget.movieData.movieName),
                           ],

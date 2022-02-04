@@ -95,7 +95,7 @@ class _ScoreState extends State<Score> {
             children: [
               Text(
                 text,
-                style: GoogleFonts.bebasNeue(fontSize: 64, color: color),
+                style: GoogleFonts.bebasNeue(fontSize: 58, color: color),
               ),
               SizedBox(height: 5),
               reviewData.criticScore == -1
@@ -104,7 +104,62 @@ class _ScoreState extends State<Score> {
                       'Based on ${reviewData.criticCount} critics and ${reviewData.userCount} users',
                       style: GoogleFonts.ubuntu(
                           fontSize: 12, color: Theme.of(context).primaryColor),
-                    )
+                    ),
+              SizedBox(
+                height: 60,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: getColor(reviewData.criticScore)),
+                    child: Center(
+                      child: reviewData.criticScore == -1
+                          ? Text('TBD',
+                              style: GoogleFonts.ubuntu(
+                                color: Theme.of(context).backgroundColor,
+                              ))
+                          : Text('${reviewData.criticScore}',
+                              style: GoogleFonts.ubuntu(
+                                color: Theme.of(context).backgroundColor,
+                              )),
+                    ),
+                  ),
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: getColor((reviewData.userScore * 10).round())),
+                    child: Center(
+                      child: Text('${(reviewData.userScore * 10).round()}',
+                          style: GoogleFonts.ubuntu(
+                            color: Theme.of(context).backgroundColor,
+                          )),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Critic score',
+                    style:
+                        GoogleFonts.ubuntu(color: Colors.white, fontSize: 12),
+                  ),
+                  Text('User score',
+                      style: GoogleFonts.ubuntu(
+                          color: Colors.white, fontSize: 12)),
+                ],
+              )
             ],
           );
   }
