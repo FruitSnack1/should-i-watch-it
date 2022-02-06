@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.should_i_watch_it">
+    package="com.fruit1.should_i_watch_it">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Should I watch it ?"
