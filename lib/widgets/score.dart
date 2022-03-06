@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 import 'package:should_i_watch_it/api/api.dart';
 import 'package:should_i_watch_it/models/reviewData.dart';
+import 'package:should_i_watch_it/widgets/scoreDetail.dart';
 
 class Score extends StatefulWidget {
   final String movieName;
@@ -108,93 +110,104 @@ class _ScoreState extends State<Score> {
                           fontSize: 12, color: Theme.of(context).primaryColor),
                     ),
               SizedBox(
-                height: 30,
+                height: 50,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: getColor(movieScore)),
-                    child: Center(
-                      child: reviewData.criticScore == -1
-                          ? Text('TBD',
-                              style: GoogleFonts.ubuntu(
-                                color: Theme.of(context).backgroundColor,
-                              ))
-                          : Text('$movieScore',
-                              style: GoogleFonts.ubuntu(
-                                color: Theme.of(context).backgroundColor,
-                              )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Overall score',
-                    style: GoogleFonts.ubuntu(color: Colors.white),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: getColor(reviewData.criticScore)),
-                    child: Center(
-                      child: reviewData.criticScore == -1
-                          ? Text('TBD',
-                              style: GoogleFonts.ubuntu(
-                                color: Theme.of(context).backgroundColor,
-                              ))
-                          : Text('${reviewData.criticScore}',
-                              style: GoogleFonts.ubuntu(
-                                color: Theme.of(context).backgroundColor,
-                              )),
-                    ),
-                  ),
-                  Container(
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: getColor((reviewData.userScore * 10).round())),
-                    child: Center(
-                      child: Text('${(reviewData.userScore * 10).round()}',
-                          style: GoogleFonts.ubuntu(
-                            color: Theme.of(context).backgroundColor,
-                          )),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Critic score',
-                    style: GoogleFonts.ubuntu(
-                        color: Theme.of(context).primaryColor, fontSize: 12),
-                  ),
-                  Text('User score',
-                      style: GoogleFonts.ubuntu(
-                          color: Theme.of(context).primaryColor, fontSize: 12)),
+                  ScoreDetail('Critic score', reviewData.criticScore.toInt(),
+                      getColor(reviewData.criticScore.toInt()), false),
+                  ScoreDetail('User score', (reviewData.userScore * 10).toInt(),
+                      getColor((reviewData.userScore * 10).toInt()), false),
+                  ScoreDetail(
+                      'Overall score', movieScore, getColor(movieScore), true)
                 ],
               )
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       width: 42,
+              //       height: 42,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(50),
+              //           color: getColor(movieScore)),
+              //       child: Center(
+              //         child: reviewData.criticScore == -1
+              //             ? Text('TBD',
+              //                 style: GoogleFonts.ubuntu(
+              //                   color: Theme.of(context).backgroundColor,
+              //                 ))
+              //             : Text('$movieScore',
+              //                 style: GoogleFonts.ubuntu(
+              //                   color: Theme.of(context).backgroundColor,
+              //                 )),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       height: 5,
+              //     ),
+              //     Text(
+              //       'Overall score',
+              //       style: GoogleFonts.ubuntu(color: Colors.white),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     Container(
+              //       width: 42,
+              //       height: 42,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5),
+              //           color: getColor(reviewData.criticScore)),
+              //       child: Center(
+              //         child: reviewData.criticScore == -1
+              //             ? Text('TBD',
+              //                 style: GoogleFonts.ubuntu(
+              //                   color: Theme.of(context).backgroundColor,
+              //                 ))
+              //             : Text('${reviewData.criticScore}',
+              //                 style: GoogleFonts.ubuntu(
+              //                   color: Theme.of(context).backgroundColor,
+              //                 )),
+              //       ),
+              //     ),
+              //     Container(
+              //       width: 42,
+              //       height: 42,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5),
+              //           color: getColor((reviewData.userScore * 10).round())),
+              //       child: Center(
+              //         child: Text('${(reviewData.userScore * 10).round()}',
+              //             style: GoogleFonts.ubuntu(
+              //               color: Theme.of(context).backgroundColor,
+              //             )),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 5,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     Text(
+              //       'Critic score',
+              //       style: GoogleFonts.ubuntu(
+              //           color: Theme.of(context).primaryColor, fontSize: 12),
+              //     ),
+              //     Text('User score',
+              //         style: GoogleFonts.ubuntu(
+              //             color: Theme.of(context).primaryColor, fontSize: 12)),
+              //   ],
+              // )
             ],
           );
   }
