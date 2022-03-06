@@ -24,8 +24,17 @@ class ReviewData {
   Future<int> getScore() async {
     if (criticScore == -1) return -1;
     final prefs = await SharedPreferences.getInstance();
-    int critic = (criticScore * prefs.getDouble('criticWeight')!).round();
-    int user = (userScore * 10 * prefs.getDouble('userWeight')!).round();
-    return ((user + critic) / 10).round();
+    int critic = (criticScore * 5).round();
+    int user = (userScore * 10 * 5).round();
+    if (prefs.containsKey('criticWeight') || prefs.containsKey('userWeight')) {
+      return ((user + critic) / 10).round();
+    } else if (prefs.getDouble('criticWeight') == null &&
+        prefs.getDouble('userWeight') == null) {
+      return ((user + critic) / 10).round();
+    } else {
+      critic = (criticScore * prefs.getDouble('criticWeight')!).round();
+      user = (userScore * 10 * prefs.getDouble('userWeight')!).round();
+      return ((user + critic) / 10).round();
+    }
   }
 }

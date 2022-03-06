@@ -24,6 +24,8 @@ class _SettingsState extends State<Settings> {
 
   loadWeights() async {
     final prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble('criticWeight') == null ||
+        prefs.getDouble('userWeight') == null) return;
     setState(() {
       criticWeight = prefs.getDouble('criticWeight') as double;
       userWeight = prefs.getDouble('userWeight') as double;
