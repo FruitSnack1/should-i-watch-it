@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:should_i_watch_it/models/movieData.dart';
 import 'package:should_i_watch_it/models/reviewData.dart';
 
-// const API_URL = 'http://168.119.116.61:8888';
-const API_URL = 'http://10.0.2.2:80';
+const API_URL = 'http://168.119.116.61:8888';
+// const API_URL = 'http://10.0.2.2:80';
 
 Future<List<MovieData>> getMovies(String query) async {
   http.Response response = await http.get(Uri.parse('$API_URL/search/$query'));
