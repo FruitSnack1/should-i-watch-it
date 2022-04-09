@@ -23,6 +23,7 @@ class _MovieState extends State<Movie> {
 
   @override
   Widget build(BuildContext context) {
+    final type = widget.movieData.type == 'tv' ? 'TV show' : 'Movie';
     return GestureDetector(
       onTap: () => widget.cb(widget.movieData),
       child: Container(
@@ -52,7 +53,7 @@ class _MovieState extends State<Movie> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    '${widget.movieData.year}',
+                    '$type, ${widget.movieData.year}',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor, fontSize: 12),
                   ),

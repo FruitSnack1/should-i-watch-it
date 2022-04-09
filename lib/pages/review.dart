@@ -27,7 +27,8 @@ class _ReviewState extends State<Review> {
   }
 
   fetchReview() async {
-    ReviewData data = await getReview(widget.movieData.movieName);
+    ReviewData data =
+        await getReview(widget.movieData.type, widget.movieData.movieName);
     setState(() {
       reviewData = data;
       loading = false;
@@ -124,7 +125,8 @@ class _ReviewState extends State<Review> {
                             SizedBox(
                               height: 60,
                             ),
-                            Score(widget.movieData.movieName),
+                            Score(widget.movieData.type,
+                                widget.movieData.movieName),
                           ],
                         ))
                       ],
