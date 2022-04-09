@@ -2,19 +2,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewData {
   final int criticScore;
-  final double userScore;
+  final int userScore;
   final int criticCount;
   final int userCount;
   final String imageUrl;
   final String title;
-  final String year;
+  final int year;
 
   ReviewData(this.criticScore, this.userScore, this.criticCount, this.userCount,
       this.imageUrl, this.year, this.title);
 
   ReviewData.fromJson(Map<String, dynamic> json)
       : criticScore = json['criticScore'],
-        userScore = json['userScore'].toDouble(),
+        userScore = json['userScore'],
         criticCount = json['criticCount'],
         userCount = json['userCount'],
         imageUrl = json['imageUrl'],
@@ -25,7 +25,7 @@ class ReviewData {
     if (criticScore == -1) return -1;
     final prefs = await SharedPreferences.getInstance();
     int critic = (criticScore * 5).round();
-    int user = (userScore * 10 * 5).round();
+    int user = (userScore * 5).round();
     if (prefs.containsKey('criticWeight') || prefs.containsKey('userWeight')) {
       return ((user + critic) / 10).round();
     } else if (prefs.getDouble('criticWeight') == null &&
@@ -33,7 +33,7 @@ class ReviewData {
       return ((user + critic) / 10).round();
     } else {
       critic = (criticScore * prefs.getDouble('criticWeight')!).round();
-      user = (userScore * 10 * prefs.getDouble('userWeight')!).round();
+      user = (userScore * prefs.getDouble('userWeight')!).round();
       return ((user + critic) / 10).round();
     }
   }

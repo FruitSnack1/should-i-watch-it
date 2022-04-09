@@ -8,7 +8,8 @@ import 'package:should_i_watch_it/widgets/scoreDetail.dart';
 
 class Score extends StatefulWidget {
   final String movieName;
-  const Score(this.movieName);
+  final String type;
+  const Score(this.type, this.movieName);
 
   @override
   _ScoreState createState() => _ScoreState();
@@ -58,7 +59,7 @@ class _ScoreState extends State<Score> {
   }
 
   fetchScore() async {
-    ReviewData data = await getReview(widget.movieName);
+    ReviewData data = await getReview(widget.type, widget.movieName);
     int score = await data.getScore();
     Future.delayed(
         const Duration(milliseconds: 3000),
@@ -117,8 +118,8 @@ class _ScoreState extends State<Score> {
                 children: [
                   ScoreDetail('Critic score', reviewData.criticScore.toInt(),
                       getColor(reviewData.criticScore.toInt()), false),
-                  ScoreDetail('User score', (reviewData.userScore * 10).toInt(),
-                      getColor((reviewData.userScore * 10).toInt()), false),
+                  ScoreDetail('User score', (reviewData.userScore).toInt(),
+                      getColor((reviewData.userScore).toInt()), false),
                   ScoreDetail(
                       'Overall score', movieScore, getColor(movieScore), true)
                 ],

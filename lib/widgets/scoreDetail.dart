@@ -79,7 +79,7 @@ class _ScoreDetailState extends State<ScoreDetail> {
                         borderRadius: BorderRadius.circular(5)),
                   ),
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: 500),
                     curve: Curves.bounceIn,
                     height: 10,
                     width: widget.score == -1 ? 0 : 180 / 100 * _score,
